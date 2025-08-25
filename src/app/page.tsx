@@ -139,14 +139,6 @@ export default function Dashboard() {
     );
   };
 
-  const getTabLabel = (tab: Tab) => {
-    return tab.charAt(0).toUpperCase() + tab.slice(1);
-  };
-
-  const getDivisionLabel = (division: Division) => {
-    return division.charAt(0).toUpperCase() + division.slice(1);
-  };
-
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Main Content */}

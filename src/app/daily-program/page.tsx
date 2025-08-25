@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FileText, MapPin, Download, Plus } from "lucide-react";
+import { MapPin, Download, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";

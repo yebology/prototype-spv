@@ -28,9 +28,9 @@ interface Job {
   jenisPekerjaan: string;
   lokasiHole: string;
   keteranganLokasi: string;
-  divisi: string;
+  divisi: Division;
   prioritas: number;
-  mandor: string;
+  mandor: Tab;
   gambar?: string;
 }
 
@@ -38,8 +38,8 @@ interface AddJobModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (job: Job) => void;
-  division: string;
-  mandor: string;
+  division: Division;
+  mandor: Tab;
 }
 
 export function AddJobModal({
@@ -90,6 +90,15 @@ export function AddJobModal({
     setFormData({ ...formData, gambar: undefined });
   };
 
+  const getDivisionLabel = (div: Division) => {
+    return div.charAt(0).toUpperCase() + div.slice(1);
+  };
+
+  const getMandorLabel = (mandorName: Tab) => {
+    return mandorName.charAt(0).toUpperCase() + mandorName.slice(1);
+  };
+
+  // Generate hole options 1-27
   const holeOptions = Array.from({ length: 27 }, (_, i) => i + 1);
 
   return (
@@ -99,7 +108,7 @@ export function AddJobModal({
           <DialogTitle>
             Tambah Pekerjaan
             <div className="text-sm font-normal text-gray-500 mt-1">
-              {mandor} | 1-9
+              {getMandorLabel(mandor)} | 1-9
             </div>
           </DialogTitle>
         </DialogHeader>
@@ -110,7 +119,7 @@ export function AddJobModal({
             <Label htmlFor="divisi">Divisi</Label>
             <Input
               id="divisi"
-              value={division}
+              value={getDivisionLabel(division)}
               readOnly
               className="bg-gray-50"
             />
@@ -229,7 +238,12 @@ export function AddJobModal({
           {/* Mandor - Readonly */}
           <div>
             <Label htmlFor="mandor">Mandor</Label>
-            <Input id="mandor" value={mandor} readOnly className="bg-gray-50" />
+            <Input
+              id="mandor"
+              value={getMandorLabel(mandor)}
+              readOnly
+              className="bg-gray-50"
+            />
           </div>
 
           {/* Submit Button */}
