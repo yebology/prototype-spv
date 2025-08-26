@@ -143,9 +143,9 @@ export default function Dashboard() {
   };
 
   const getJobsByDivision = (division: Division) => {
-    return jobs.filter(
-      (job) => job.divisi === division && job.mandor === activeTab
-    );
+    return jobs
+      .filter((job) => job.divisi === division && job.mandor === activeTab)
+      .sort((a, b) => a.prioritas - b.prioritas);
   };
 
   return (
@@ -242,27 +242,60 @@ export default function Dashboard() {
                   <thead>
                     <tr className="border-b text-left text-gray-500 text-sm">
                       <th className="pb-3 font-medium">Nomor</th>
+                      <th className="pb-3 font-medium">Prioritas</th>
                       <th className="pb-3 font-medium">Jenis Pekerjaan</th>
-                      <th className="pb-3 font-medium">Lokasi Hole</th>
+                      <th className="pb-3 font-medium">Hole</th>
                       <th className="pb-3 font-medium">Keterangan Lokasi</th>
                       <th className="pb-3 font-medium">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {getJobsByDivision("operasional").map((job, index) => (
-                      <tr
-                        key={job.id}
-                        className={`border-b ${
-                          job.status === "in-progress" ? "bg-gray-100" : ""
-                        }`}
-                      >
-                        <td className="py-4">{job.nomor}</td>
-                        <td className="py-4">{job.jenisPekerjaan}</td>
-                        <td className="py-4">{job.lokasiHole}</td>
-                        <td className="py-4">{job.keteranganLokasi}</td>
-                        <td className="py-4">{getStatusIcon(job.status)}</td>
+                    {getJobsByDivision("operasional").length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="py-8 text-center text-gray-500"
+                        >
+                          Belum ada pekerjaan operasional
+                        </td>
                       </tr>
-                    ))}
+                    ) : (
+                      getJobsByDivision("operasional").map((job, index) => (
+                        <tr
+                          key={job.id}
+                          className={`border-b ${
+                            job.status === "in-progress" ? "bg-gray-100" : ""
+                          }`}
+                        >
+                          <td className="py-4">{job.nomor}</td>
+                            <td className="py-4">
+                            <select 
+                              className="w-fit p-2 border rounded-md bg-white"
+                              defaultValue={job.prioritas}
+                              onChange={(e) => {
+                              const updatedJobs = jobs.map(j => 
+                                j.id === job.id 
+                                ? { ...j, prioritas: Number(e.target.value) }
+                                : j
+                              );
+                              setJobs(updatedJobs);
+                              }}
+                            >
+                              <option value={job.prioritas}>{job.prioritas}</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                            </select>
+                            </td>
+                          <td className="py-4">{job.jenisPekerjaan}</td>
+                          <td className="py-4">{job.lokasiHole}</td>
+                          <td className="py-4">{job.keteranganLokasi}</td>
+                          <td className="py-4">{getStatusIcon(job.status)}</td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -287,27 +320,60 @@ export default function Dashboard() {
                   <thead>
                     <tr className="border-b text-left text-gray-500 text-sm">
                       <th className="pb-3 font-medium">Nomor</th>
+                      <th className="pb-3 font-medium">Prioritas</th>
                       <th className="pb-3 font-medium">Jenis Pekerjaan</th>
-                      <th className="pb-3 font-medium">Lokasi Hole</th>
+                      <th className="pb-3 font-medium">Hole</th>
                       <th className="pb-3 font-medium">Keterangan Lokasi</th>
                       <th className="pb-3 font-medium">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {getJobsByDivision("landscape").map((job, index) => (
-                      <tr
-                        key={job.id}
-                        className={`border-b ${
-                          job.status === "in-progress" ? "bg-gray-100" : ""
-                        }`}
-                      >
-                        <td className="py-4">{job.nomor}</td>
-                        <td className="py-4">{job.jenisPekerjaan}</td>
-                        <td className="py-4">{job.lokasiHole}</td>
-                        <td className="py-4">{job.keteranganLokasi}</td>
-                        <td className="py-4">{getStatusIcon(job.status)}</td>
+                    {getJobsByDivision("landscape").length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="py-8 text-center text-gray-500"
+                        >
+                          Belum ada pekerjaan landscape
+                        </td>
                       </tr>
-                    ))}
+                    ) : (
+                      getJobsByDivision("landscape").map((job, index) => (
+                        <tr
+                          key={job.id}
+                          className={`border-b ${
+                            job.status === "in-progress" ? "bg-gray-100" : ""
+                          }`}
+                        >
+                          <td className="py-4">{job.nomor}</td>
+                            <td className="py-4">
+                            <select 
+                              className="w-fit p-2 border rounded-md bg-white"
+                              defaultValue={job.prioritas}
+                              onChange={(e) => {
+                              const updatedJobs = jobs.map(j => 
+                                j.id === job.id 
+                                ? { ...j, prioritas: Number(e.target.value) }
+                                : j
+                              );
+                              setJobs(updatedJobs);
+                              }}
+                            >
+                              <option value={job.prioritas}>{job.prioritas}</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                            </select>
+                            </td>
+                          <td className="py-4">{job.jenisPekerjaan}</td>
+                          <td className="py-4">{job.lokasiHole}</td>
+                          <td className="py-4">{job.keteranganLokasi}</td>
+                          <td className="py-4">{getStatusIcon(job.status)}</td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -315,7 +381,7 @@ export default function Dashboard() {
           </Card>
 
           {/* Projek Section */}
-          <Card>
+          <Card className="pb-8">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-xl">Projek</CardTitle>
               <Button
@@ -332,8 +398,9 @@ export default function Dashboard() {
                   <thead>
                     <tr className="border-b text-left text-gray-500 text-sm">
                       <th className="pb-3 font-medium">Nomor</th>
+                      <th className="pb-3 font-medium">Prioritas</th>
                       <th className="pb-3 font-medium">Jenis Pekerjaan</th>
-                      <th className="pb-3 font-medium">Lokasi Hole</th>
+                      <th className="pb-3 font-medium">Hole</th>
                       <th className="pb-3 font-medium">Keterangan Lokasi</th>
                       <th className="pb-3 font-medium">Status</th>
                     </tr>
@@ -357,6 +424,27 @@ export default function Dashboard() {
                           }`}
                         >
                           <td className="py-4">{job.nomor}</td>
+                            <td className="py-4">
+                            <select 
+                                
+                              defaultValue={job.prioritas}
+                              onChange={(e) => {
+                              const updatedJobs = jobs.map(j => 
+                                j.id === job.id 
+                                ? { ...j, prioritas: Number(e.target.value) }
+                                : j
+                              );
+                              setJobs(updatedJobs);
+                              }}
+                            >
+                              <option value={job.prioritas}>{job.prioritas}</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                            </select>
+                            </td>
                           <td className="py-4">{job.jenisPekerjaan}</td>
                           <td className="py-4">{job.lokasiHole}</td>
                           <td className="py-4">{job.keteranganLokasi}</td>
