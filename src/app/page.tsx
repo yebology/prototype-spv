@@ -3,8 +3,17 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Check, Circle, CircleCheck } from "lucide-react";
+import { Plus, Check, Circle, CircleCheck, CheckCircleIcon } from "lucide-react";
 import { AddJobModal } from "@/components/add-job-modal";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog"
 
 type Tab = "lembah" | "bukit" | "danau";
 type Division = "operasional" | "landscape" | "projek";
@@ -97,7 +106,7 @@ export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDivision, setSelectedDivision] =
     useState<Division>("operasional");
-
+  const [isApproved, setIsApproved] = useState(false)
   const handleAddJob = (division: Division) => {
     setSelectedDivision(division);
     setIsModalOpen(true);
@@ -143,6 +152,7 @@ export default function Dashboard() {
     <div className="flex h-screen bg-gray-50">
       {/* Main Content */}
       <div className="flex-1 p-8">
+      <div className="w-full flex flex-row items-center justify-between">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Pekerjaan Hari Ini
@@ -150,8 +160,53 @@ export default function Dashboard() {
           <p className="text-gray-600">
             Area : Lembah, CH, FC, Villa, Main Gate, Driving Range, Parkiran
           </p>
-        </div>
-        <div className="grid grid-cols-2 gap-6 mb-8">
+      </div>
+
+        {!isApproved && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="bg-gray-600">
+                <CheckCircleIcon className="w-4 h-4 mr-2" />
+                Setujui Laporan
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Konfirmasi Persetujuan</DialogTitle>
+                <DialogDescription>
+                  Apakah Anda yakin ingin menyetujui laporan ini?
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="bg-gray-50 rounded-lg p-4 text-center">
+                  <div className="text-sm text-gray-600 mb-1">Selesai</div>
+                  <div className="text-2xl font-bold text-green-600">15/20</div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4 text-center">
+                  <div className="text-sm text-gray-600 mb-1">Proses</div>
+                  <div className="text-2xl font-bold text-blue-600">5/20</div>
+                </div>
+              </div>
+              <div className="flex justify-end gap-3 mt-4">
+                <DialogClose asChild>
+                  <Button variant="outline">Batal</Button>
+                </DialogClose>
+                <Button 
+                  className="bg-olive" 
+                  onClick={() => {
+                    setIsApproved(true);
+                  }}
+                >
+                  Setujui
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
+        {isApproved && <div className="text-green-600">Laporan telah disetujui</div>}
+      </div>
+      <div className="grid grid-cols-2 gap-6 mb-8">
           <div className="bg-white shadow rounded-2xl px-4 py-8 flex flex-row items-center justify-center">
             <div className="flex flex-row w-1/2">
               <CircleCheck className="text-olive mr-2" />
@@ -164,7 +219,7 @@ export default function Dashboard() {
               <CircleCheck className="text-olive mr-2" />
               <span className="text-olive font-medium text-xl">Proses</span>
             </div>
-            <span className="w-1/2 text-2xl font-semibold text-end">20/20</span>
+            <span className="w-1/2 text-2xl font-semibold text-end">5/20</span>
           </div>
         </div>
 
