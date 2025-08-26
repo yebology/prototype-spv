@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 const menuItems = [
-  { id: "0", icon: Grid, hasSubmenu: true, href: "/" },
+  { id: "0", icon: Grid, hasSubmenu: true, href: "/today/lembah" },
   { id: "1", icon: Calendar, hasSubmenu: false, href: "/weekly-program" },
   { id: "2", icon: File, hasSubmenu: true, href: "/daily-program" },
 ];
@@ -66,7 +66,7 @@ export function Sidebar() {
               <li key={s.id}>
                 <button
                         className={`w-full text-left px-4 py-3 hover:bg-olive hover:text-white cursor-pointer ${s.id === "lembah" && 'bg-olive text-white'}`}
-                >
+                onClick={() => router.push(`/today/${s.id}`)} >
                   {s.label}
                 </button>
               </li>
